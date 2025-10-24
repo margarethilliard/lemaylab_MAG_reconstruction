@@ -1,9 +1,9 @@
 # Lemay Lab MAG reconstruction pipeline (Snakemake)
 
-A reproducible Snakemake workflow for MAG reconstruction.   
-Originally developed by Nithya K Kumar for metagenomic preprocessing, modified by Margaret A. Hilliard using the [SnakeMAGs](https://github.com/Nachida08/SnakeMAGs) framework.
-The original analysis repo can be found [here](https://github.com/margarethilliard/VB12-analysis).
-Metagenomic sequence pre-processing steps were run previously. Code for metagenomic sequencing pre-processing can be found [here](https://github.com/dglemay/ARG_metagenome).
+A reproducible Snakemake workflow for MAG reconstruction from FL100 cleaned reads and contigs. 
+This repository was originally developed by Nithya K Kumar for metagenomic read preprocessing, and was modified by Margaret A. Hilliard using the [SnakeMAGs](https://github.com/Nachida08/SnakeMAGs) framework.
+The original analysis repository can be found [here](https://github.com/margarethilliard/VB12-analysis).
+Metagenomic sequence pre-processing steps were run previously to generate input files, that repository can be found [here](https://github.com/dglemay/ARG_metagenome).
 
 ---
 
