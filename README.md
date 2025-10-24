@@ -1,13 +1,15 @@
-# Lemay Lab Metagenomics Pipeline (Snakemake)
+# Lemay Lab MAG reconstruction pipeline (Snakemake)
 
-A reproducible Snakemake workflow for processing 150 bp PE shotgun metagenomic sequencing data.  
-Developed by Nithya K Kumar (Lemay Lab, UC Davis, USDA).
+A reproducible Snakemake workflow for MAG reconstruction.   
+Originally developed by Nithya K Kumar for metagenomic preprocessing, modified by Margaret A. Hilliard using the [SnakeMAGs](https://github.com/Nachida08/SnakeMAGs) framework.
+The original analysis repo can be found [here](https://github.com/margarethilliard/VB12-analysis).
+Metagenomic sequence pre-processing steps were run previously. Code for metagenomic sequencing pre-processing can be found [here](https://github.com/dglemay/ARG_metagenome).
 
 ---
 
 ## Overview
-This pipeline streamlines the analysis of shotgun metagenomic sequencing data.  
-It performs quality control, removes host reads, profiles microbial taxa, and summarizes results in a reproducible and modular framework.
+This pipeline streamlines the reconstruction of MAGs from cleaned reads and contigs.  
+It performs binning, quality control and filtering, taxonomic classification and an abundance calculation in a reproducible and modular framework.
 
 **Core features:**
 - Automated workflow management using **Snakemake**
@@ -21,23 +23,20 @@ It performs quality control, removes host reads, profiles microbial taxa, and su
 
 | Step | Tool | Description |
 |------|------|--------------|
-| 1. Quality control | FastQC | Assess read quality |
-| 2. Host read removal | Bowtie2 | Remove host (e.g. human or macaque) reads |
-| 3. Trimming | Fastp | Trim adapters and low-quality bases |
-| 4. Merging | Fastp | Merge paired end reads 
-| 5. Taxonomic profiling | MetaPhlAn | Read based classification from PE reads |
-
-## snakemake simplified DAG (rulegraph)
-![main](pipeline_DAG.png)
-
+| 1. Mapping | BWA | Map reads to contigs |
+| 2. Sort/compress | Samtools | Sort and compress SAM to BAM files |
+| 3. Bin | Metabat2 | Generate read depth file and bin contigs |
+| 4. QC | CheckM | Assess bin completion and contamination, filter bins |
+| 5. Detect chimerism | GUNC | Read based classification from PE reads |
+| 6. Taxonomic profiling | GTDB-tk | Taxonomic classification |
+| 7. MAG abundances | CoverM | Generate read coverage and relative abundance information |
 
 ---
 
-
 ## Clone the repository
 ```bash
-git clone https://github.com/nithyak2/lemaylab_metagenomics_pipeline
-cd metagenomics-pipeline
+git clone https://github.com/margarethilliard/lemaylab_MAG_reconstruction
+cd lemaylab_MAG_reconstruction
 ```
 
 
@@ -52,42 +51,35 @@ cd /path/to/project_root
 
 3. Create sample sheet (sample_sheet.txt) with columns: sample_name, r1_path, r2_path
 ```bash
-# To auto-generate from fastq_files directory, run:
-# edit this based on your file names 
-echo -e "sample_name\tr1_path\tr2_path" > sample_sheet.txt
- for r1 in fastq_files/*_R1_001.fastq.gz; do
-     r2="${r1/_R1_/_R2_}"
-     sample=$(basename "$r1" | sed 's/_S[0-9]*_L[0-9]*_R1_001.fastq.gz//')
-     echo -e "${sample}\t${r1}\t${r2}" >> sample_sheet.txt
- done
-# Example output:
-# Tab-separated file with these columns:
-# sample_name	r1_path	r2_path
-# 109_C1_E	fastq_files/109_C1_E_S18_L006_R1_001.fastq.gz	fastq_files/109_C1_E_S18_L006_R2_001.fastq.gz
-# 109_C1_N	fastq_files/109_C1_N_S66_L006_R1_001.fastq.gz	fastq_files/109_C1_N_S66_L006_R2_001.fastq.gz
+#sample_name	contig_path	r1_path	r2_path
+#sample01	/path/to/sample01_assembled/final.contigs.fa	/path/to/sample01_R1_dup.fastq.gz	/path/to/sample01_R2_dup.fastq.gz
+#sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_dup.fastq.gz	/path/to/sample02_R2_dup.fastq.gz
+#sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
 ```
 
-4. Get required files from MetaPhlAn github (this may need to be updated if databases change)
+4. Download yaml files from SnakeMAGs github
 ```bash
-wget https://raw.githubusercontent.com/biobakery/MetaPhlAn/master/metaphlan/utils/sgb_to_gtdb_profile.py -O scripts/sgb_to_gtdb_profile.py
-wget https://raw.githubusercontent.com/biobakery/MetaPhlAn/master/metaphlan/utils/util_fun.py -O scripts/util_fun.py
-wget https://raw.githubusercontent.com/biobakery/MetaPhlAn/master/metaphlan/utils/mpa_vJan25_CHOCOPhlAnSGB_202503_SGB2GTDB.tsv -O scripts/mpa_vJan25_CHOCOPhlAnSGB_202503_SGB2GTDB.tsv
-wget https://raw.githubusercontent.com/biobakery/MetaPhlAn/master/metaphlan/utils/merge_metaphlan_tables.py -O scripts/merge_metaphlan_tables.py 
-
-# Make sure these scripts have execute permissions
-ls -l scripts/sgb_to_gtdb_profile.py 
-chmod +x scripts/sgb_to_gtdb_profile.py 
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/BWA.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/CHECKM.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/COVERM.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/GTDBTK.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/GUNC.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/METABAT2.yaml
+wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/SAMTOOLS.yaml
 ```
+
 5. Load snakemake v9.11.4 into a conda environment (if necessary):
 ```bash
 eval "$(mamba shell hook --shell bash)"
 mamba create -n snakemake_env -c conda-forge -c bioconda snakemake=9.11.4
 conda activate snakemake_env
 ```
+
  6. Install slurm executor plugin for snakemake v8+ (only needs to be done once):
  ```bash
 pip install snakemake-executor-plugin-slurm
 ```
+
  7. Quick check to make sure there are no errors (dry run):
 ```bash
 snakemake -s scripts/Snakefile --configfile config.yaml -n
@@ -109,39 +101,40 @@ snakemake -s scripts/Snakefile --configfile config.yaml -n
 ```bash
 tail -f logs/snakemake_<jobid>.out
 ```
+
  REQUIRED DIRECTORY STRUCTURE:
 -----------------------
 ```
 # project_root/
 # │
 # ├── config/
-# │   └── config.yaml                [REQUIRED - edit with your paths]
+# │   └── config.yaml               [REQUIRED - edit with your paths]
 # │
 # ├── scripts/
-# │   ├── Snakefile                  [this file]
-# │   ├── sgb_to_gtdb_profile.py     [required script from MetaPhlAn github]
-# │   ├── util_fun.py                [required script from MetaPhlAn github]
-# │   ├── mpa_vJan25_CHOCOPhlAnSGB_202503_SGB2GTDB.tsv [required for sgb to gtdb script]
-# │   ├── merge_metaphlan_tables.py  [required script from MetaPhlAn github]
-# │   └── submit_snakefile.sh        [submit this file with sbatch]
-# │     ├── envs/
-# │        ├── fastqc_multiqc.yaml
-# │        ├── bowtie.yaml
-# │        ├── fastp.yaml              
-# │        └── metaphlan.yaml  
+# │   ├── Snakefile                 [this file]
+# │   └── submit_snakefile.sh       [submit this file with sbatch]
 # │
-# ├── sample_sheet.txt              [REQUIRED - tab-separated file with sample info]
+# ├── envs/
+# │   ├── BWA.yaml              
+# │   ├── CHECKM.yaml   
+# │   ├── COVERM.yaml                
+# │   ├── GTDBTK.yaml
+# │   ├── GUNC.yaml  
+# │   ├── METABAT2.yaml        
+# │	  └── SAMTOOLS.yaml 
+# │	
+# ├── sample_sheet.txt             [REQUIRED - tab-separated file with sample info]
 # │
-# └── fastq_files/                  [your input files, demultiplexed]
-#     ├── sample1_R1_001.fastq.gz
-#     ├── sample1_R2_001.fastq.gz
-#     ├── sample2_R1_001.fastq.gz
-#     └── sample2_R2_001.fastq.gz
-#
+# ├──fastq_files/                  [your input files from fastuniq]
+# │   ├── sample01_R1.fastq.gz
+# │   ├── sample01_R2.fastq.gz
+# │   ├── sample02_R1.fastq.gz
+# │   ├── sample02_R2.fastq.gz
+# │   ├── sample03_R1.fastq.gz
+# │   └── sample03_R2.fastq.gz	
+# │
+# └── contig_files/                [your input files from MEGAHIT]
+#     ├── sample1_final.contigs.fa.gz
+#     ├── sample2_final.contigs.fa.gz
+#     └── sample3_final.contigs.fa.gz
 ```
-
-
-
-
-
-
