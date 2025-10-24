@@ -26,10 +26,9 @@ It performs binning, quality control and filtering, taxonomic classification and
 | 1. Mapping | BWA | Map reads to contigs |
 | 2. Sort/compress | Samtools | Sort and compress SAM to BAM files |
 | 3. Bin | Metabat2 | Generate read depth file and bin contigs |
-| 4. QC | CheckM | Assess bin completion and contamination, filter bins |
-| 5. Detect chimerism | GUNC | Read based classification from PE reads |
-| 6. Taxonomic profiling | GTDB-tk | Taxonomic classification |
-| 7. MAG abundances | CoverM | Generate read coverage and relative abundance information |
+| 4. QC | CheckM & GUNC | Assess bin completion, contamination, chimerism, and filter accordingly |
+| 5. Taxonomic profiling | GTDB-tk | Taxonomic classification based on the Genome Database Taxonomy |
+| 6. MAG abundances | CoverM | Generate read coverage and relative abundance information |
 
 ---
 
