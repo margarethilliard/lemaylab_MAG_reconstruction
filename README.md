@@ -48,12 +48,12 @@ cd /path/to/project_root
  
 2. Copy config/config.yaml and edit paths for your system. **This should be the only file you need to edit, you should not need to edit the Snakefile**
 
-3. Create sample sheet (sample_sheet.txt) with columns: sample_name, r1_path, r2_path
+3. Create tab-separated sample sheet (sample_sheet.txt) with columns: sample_name, contig_path, r1_path, r2_path
 ```bash
-#sample_name	contig_path	r1_path	r2_path
-#sample01	/path/to/sample01_assembled/final.contigs.fa	/path/to/sample01_R1_dup.fastq.gz	/path/to/sample01_R2_dup.fastq.gz
-#sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_dup.fastq.gz	/path/to/sample02_R2_dup.fastq.gz
-#sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
+sample_name	contig_path	r1_path	r2_path
+sample01	/path/to/sample01_assembled/final.contigs.fa	/path/to/sample01_R1_dup.fastq.gz	/path/to/sample01_R2_dup.fastq.gz
+sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_dup.fastq.gz	/path/to/sample02_R2_dup.fastq.gz
+sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
 ```
 
 4. Download yaml files from SnakeMAGs github
