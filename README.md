@@ -66,25 +66,33 @@ wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_
 wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/METABAT2.yaml
 wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/SAMTOOLS.yaml
 ```
+5. Download the latest release of GTDB-Tk, which requires ~66G+ of external data (GTDB) that need to be downloaded and unarchived. 
+```bash
+# Download 
+wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/auxillary_files/gtdbtk_r214_data.tar.gz
+# Decompress
+tar -xzvf *tar.gz
+# This will create a folder called release214
+```
 
-5. Load snakemake v9.11.4 into a conda environment (if necessary):
+6. Load snakemake v9.11.4 into a conda environment (if necessary):
 ```bash
 eval "$(mamba shell hook --shell bash)"
 mamba create -n snakemake_env -c conda-forge -c bioconda snakemake=9.11.4
 conda activate snakemake_env
 ```
 
- 6. Install slurm executor plugin for snakemake v8+ (only needs to be done once):
+ 7. Install slurm executor plugin for snakemake v8+ (only needs to be done once):
  ```bash
 pip install snakemake-executor-plugin-slurm
 ```
 
- 7. Quick check to make sure there are no errors (dry run):
+ 8. Quick check to make sure there are no errors (dry run):
 ```bash
 snakemake -s scripts/Snakefile --configfile config.yaml -n
 ```
 
-8. Run the pipeline using one of these methods (meant for using HPC with SLURM scheduler):
+9. Run the pipeline using one of these methods (meant for using HPC with SLURM scheduler):
 * METHOD A - Submit via sbatch script (recommended):
     ```
     sbatch scripts/submit_snakefile.sh
@@ -96,7 +104,7 @@ snakemake -s scripts/Snakefile --configfile config.yaml -n
             --default-resources slurm_account=GROUPNAME mem_mb=4096 runtime=600
     ```
 
-9. Monitor progress:
+10. Monitor progress:
 ```bash
 tail -f logs/snakemake_<jobid>.out
 ```
