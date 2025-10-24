@@ -1,0 +1,4 @@
+sample_name	contig_path	r1_path	r2_path
+5001	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/Novaseq_072rerun/step8_megahit_in_trimmomatic/5001_assembled/final.contigs.fa	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/Novaseq_072rerun/step3_fastuniq/5001_R1_dup.fastq.gz	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/Novaseq_072rerun/step3_fastuniq/5001_R2_dup.fastq.gz
+5002	/quobyte/dglemaygrp/BACKED-UP/FL100_step8_assemblies/NovaSeq043/5002_assembled/final.contigs.fa.gz	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/NovaSeq043/step3_fastuniq/5002_R1_dup.fastq.gz	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/NovaSeq043/step3_fastuniq/5002_R2_dup.fastq.gz
+5006	/quobyte/dglemaygrp/BACKED-UP/FL100_step8_assemblies/NovaSeq043/5006_assembled/final.contigs.fa.gz	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/NovaSeq043/step3_fastuniq/5006_R1_dup.fastq.gz	/quobyte/dglemaygrp/BACKED-UP/Zeya/proceesed_data/NovaSeq043/step3_fastuniq/5006_R2_dup.fastq.gz
