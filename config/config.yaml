@@ -65,7 +65,7 @@ resources:
   
 # Parameters for BWA
 bwa_params:
-  seed: 19860615              # For reproducibility 
+  seed: 8675309               # For reproducibility 
   minContig: 2500             # Minimum length (in bp) of the contigs
 
 # Parameters for quality filtering
