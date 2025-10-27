@@ -12,7 +12,7 @@ conda activate snakemake_env
 
 # use-envmodules is needed since I have some programs as modules, not in a conda environment
 # we should move away from this approach soon, and load everything into conda environments 
-snakemake -s scripts/Snakefile_step1_3_FINAL.py \
+snakemake -s scripts/Snakefile \
     --executor slurm \
     --jobs 20 \
     --use-conda \
