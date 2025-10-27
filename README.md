@@ -52,7 +52,7 @@ sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_du
 sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
 ```
 
-4. Download the latest release of GTDB-Tk, which requires ~66G+ of external data (GTDB) that need to be downloaded and unarchived. 
+4. Download the latest release of GTDB-Tk, which requires ~80G+ of external data (GTDB) that need to be downloaded and unarchived. 
 ```bash
 # Download 
 wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/auxillary_files/gtdbtk_r214_data.tar.gz
