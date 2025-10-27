@@ -81,9 +81,9 @@
 ########################################
 # Snakefile for FL100 MAG reconstruction
 # Steps: BWA → Samtools → MetaBAT2 → CheckM
-                       └──→ Filtered bins (only QC-passed MAGs)
-                                ├──→ GTDB-Tk
-                                └──→ CoverM
+#                             └──→ Filtered bins (only QC-passed MAGs)
+#                                    ├──→ GTDB-Tk
+#                                    └──→ CoverM
 ########################################
 
 import pandas as pd
