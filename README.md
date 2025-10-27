@@ -126,7 +126,7 @@ Required directory structure:
 # │   └── sample03_R2.fastq.gz	
 # │
 # └── contig_files/                [your input files from MEGAHIT]
-#     ├── sample1_final.contigs.fa.gz
-#     ├── sample2_final.contigs.fa.gz
-#     └── sample3_final.contigs.fa.gz
+#     ├── sample01_final.contigs.fa.gz
+#     ├── sample02_final.contigs.fa.gz
+#     └── sample03_final.contigs.fa.gz
 ```
