@@ -1,20 +1,16 @@
 # Configuration file for FL100 MAG reconstruction pipeline
 # Edit this file with your system-specific paths and settings
 
-# Project settings
-project_name: "lemaylab_MAG_reconstruction"  # Change to your project name
+project_name: "lemaylab_MAG_reconstruction"  
+sample_sheet: "sample_sheet.txt"
 
 # Input/Output directories
 input_reads: "fastq_files"
 input_contigs: "contigs"
 sample_sheet: "sample_sheet.txt"
 
-# Database paths - EDIT THESE FOR YOUR SYSTEM
-databases:
-
-  # Path to database directories
-  gtdb: "path/to/gtdb/database/directory"
-#  GUNC_db: "/path/to/GUNC_DB/gunc_db_progenomes2.1.dmnd"
+# Path to GTDB-Tk database
+gtdbtk_data: "/path/to/release214" # Change path 
   
 # Conda environment paths, best to keep this in path/to/project/root
 conda_envs:
@@ -22,54 +18,40 @@ conda_envs:
   checkm: "envs/CHECKM.yaml"
   coverm: "envs/COVERM.yaml"
   gtdbtk: "envs/GTDBTK.yaml"
-# gunc: "envs/GUNC.yaml"
   metabat2: "envs/METABAT2.yaml"
   samtools: "envs/SAMTOOLS.yaml"
   
 # Resource allocation (memory in GB, runtime in minutes)
+# Resource configurations for each step
 resources:
-  bwa: 
-    threads: 4
-    mem_gb: 16
-    runtime_min: 360  # 6 hours
-  
-  samtools:  
+  bwa:
     threads: 8
-    mem_gb: 64
-    runtime_min: 360  # 6 hours
-  
-  metabat2: 
-    threads: 4
-    mem_gb: 16
-    runtime_min: 360  # 6 hours
-  
-  checkm: 
-    threads: 4
-    mem_gb: 16
-    runtime_min: 360  # 6 hours
-  
-#  gunc: 
-#    threads: 4
-#    mem_gb: 64
-#    runtime_min: 360  # 6 hours
+    mem_mb: 8000
+    runtime: 360     # minutes
 
-  gtdbtk: 
+  samtools:
     threads: 4
-    mem_gb: 64
-    runtime_min: 360  # 6 hours
-  
-  coverm: 
-    threads: 4
-    mem_gb: 64
-    runtime_min: 360  # 6 hours
-  
-# Parameters for BWA
-bwa_params:
-  seed: 8675309               # For reproducibility 
-  minContig: 2500             # Minimum length (in bp) of the contigs
+    mem_mb: 4000
+    runtime: 120
 
-# Parameters for quality filtering
-checkm_params:
-  completion: 50              # The minimum completion rate of bins
-  contamination: 10           # The maximum contamination rate of bins
-  
+  metabat2:
+    threads: 8
+    mem_mb: 16000
+    runtime: 480
+
+  checkm:
+    threads: 8
+    mem_mb: 16000
+    runtime: 720
+    completion_threshold: 50      # minimum % completeness
+    contamination_threshold: 10   # maximum % contamination
+
+  gtdbtk:
+    threads: 8
+    mem_mb: 32000
+    runtime: 1440
+
+  coverm:
+    threads: 8
+    mem_mb: 8000
+    runtime: 240
