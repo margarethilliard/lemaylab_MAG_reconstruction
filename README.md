@@ -47,9 +47,9 @@ cd /path/to/project_root
 3. Create tab-separated sample sheet (sample_sheet.txt) with columns: sample_name, contig_path, r1_path, r2_path
 ```bash
 sample_name	contig_path	r1_path	r2_path
-sample01	/path/to/sample01_assembled/final.contigs.fa	/path/to/sample01_R1_dup.fastq.gz	/path/to/sample01_R2_dup.fastq.gz
-sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_dup.fastq.gz	/path/to/sample02_R2_dup.fastq.gz
-sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
+sample01	/path/to/sample01.final.contigs.fa	/path/to/sample01_R1.fastq.gz	/path/to/sample01_R2.fastq.gz
+sample02	/path/to/sample02.final.contigs.fa.gz	/path/to/sample02_R1.fastq.gz	/path/to/sample02_R2.fastq.gz
+sample03	/path/to/sample03.final.contigs.fa.gz	/path/to/sample03_R1.fastq.gz	/path/to/sample03_R2.fastq.gz
 ```
 
 4. Download the latest release of GTDB-Tk, which requires ~80G+ of external data (GTDB) that need to be downloaded and unarchived. 
