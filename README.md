@@ -1,15 +1,11 @@
 # Lemay Lab MAG reconstruction pipeline (Snakemake)
 
-A reproducible Snakemake workflow for MAG reconstruction from FL100 cleaned reads and contigs. 
-This repository was originally developed by Nithya K Kumar for metagenomic read preprocessing, and was modified by Margaret A. Hilliard using the [SnakeMAGs](https://github.com/Nachida08/SnakeMAGs) framework.
-The original analysis repository can be found [here](https://github.com/margarethilliard/VB12-analysis).
-Metagenomic sequence pre-processing steps were run previously to generate input files, that repository can be found [here](https://github.com/dglemay/ARG_metagenome).
+A reproducible Snakemake workflow for MAG reconstruction from FL100 cleaned reads and contigs. This repository was originally developed by Nithya K Kumar for metagenomic read preprocessing, and was modified by Margaret A. Hilliard using parts of the [SnakeMAGs](https://github.com/Nachida08/SnakeMAGs) framework. The original analysis repository can be found [here](https://github.com/margarethilliard/VB12-analysis). Metagenomic sequence pre-processing steps were run previously to generate input files, and that repository can be found [here](https://github.com/dglemay/ARG_metagenome).
 
 ---
 
 ## Overview
-This pipeline streamlines the reconstruction of MAGs from cleaned reads and contigs.  
-It performs binning, quality control and filtering, taxonomic classification and an abundance calculation in a reproducible and modular framework.
+This pipeline streamlines the reconstruction of MAGs from cleaned reads and contigs. It performs binning, quality control and filtering, taxonomic classification and an abundance calculation in a reproducible and modular framework.
 
 **Core features:**
 - Automated workflow management using **Snakemake**
@@ -19,14 +15,14 @@ It performs binning, quality control and filtering, taxonomic classification and
 
 ---
 
-##  Workflow Summary
+##  Workflow summary
 
 | Step | Tool | Description |
 |------|------|--------------|
 | 1. Mapping | BWA | Map reads to contigs |
 | 2. Sort/compress | Samtools | Sort and compress SAM to BAM files |
 | 3. Bin | Metabat2 | Generate read depth file and bin contigs |
-| 4. QC | CheckM & GUNC | Assess bin completion, contamination, chimerism, and filter accordingly |
+| 4. QC | CheckM | Assess bin completion, contamination, and filters accordingly |
 | 5. Taxonomic profiling | GTDB-tk | Taxonomic classification based on the Genome Database Taxonomy |
 | 6. MAG abundances | CoverM | Generate read coverage and relative abundance information |
 
@@ -39,7 +35,7 @@ cd lemaylab_MAG_reconstruction
 ```
 
 
- USAGE INSTRUCTIONS
+ Usage instructions
  ------------------
 1.   Navigate to project root directory:
 ```bash
@@ -56,17 +52,7 @@ sample02	/path/to/sample02_assembled/final.contigs.fa.gz	/path/to/sample02_R1_du
 sample03	/path/to/sample03_assembled/final.contigs.fa.gz	/path/to/sample03_R1_dup.fastq.gz	/path/to/sample03_R2_dup.fastq.gz
 ```
 
-4. Download yaml files from SnakeMAGs github
-```bash
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/BWA.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/CHECKM.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/COVERM.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/GTDBTK.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/GUNC.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/METABAT2.yaml
-wget https://raw.githubusercontent.com/Nachida08/SnakeMAGs/main/SnakeMAGs_conda_env/BWA.yaml -O envs/SAMTOOLS.yaml
-```
-5. Download the latest release of GTDB-Tk, which requires ~66G+ of external data (GTDB) that need to be downloaded and unarchived. 
+4. Download the latest release of GTDB-Tk, which requires ~66G+ of external data (GTDB) that need to be downloaded and unarchived. 
 ```bash
 # Download 
 wget https://data.gtdb.ecogenomic.org/releases/release214/214.1/auxillary_files/gtdbtk_r214_data.tar.gz
@@ -75,24 +61,24 @@ tar -xzvf *tar.gz
 # This will create a folder called release214
 ```
 
-6. Load snakemake v9.11.4 into a conda environment (if necessary):
+5. Load snakemake v9.11.4 into a conda environment (if necessary):
 ```bash
 eval "$(mamba shell hook --shell bash)"
 mamba create -n snakemake_env -c conda-forge -c bioconda snakemake=9.11.4
 conda activate snakemake_env
 ```
 
- 7. Install slurm executor plugin for snakemake v8+ (only needs to be done once):
+ 6. Install slurm executor plugin for snakemake v8+ (only needs to be done once):
  ```bash
 pip install snakemake-executor-plugin-slurm
 ```
 
- 8. Quick check to make sure there are no errors (dry run):
+ 7. Quick check to make sure there are no errors (dry run):
 ```bash
 snakemake -s scripts/Snakefile --configfile config.yaml -n
 ```
 
-9. Run the pipeline using one of these methods (meant for using HPC with SLURM scheduler):
+8. Run the pipeline using one of these methods (meant for using HPC with SLURM scheduler):
 * METHOD A - Submit via sbatch script (recommended):
     ```
     sbatch scripts/submit_snakefile.sh
@@ -104,12 +90,12 @@ snakemake -s scripts/Snakefile --configfile config.yaml -n
             --default-resources slurm_account=GROUPNAME mem_mb=4096 runtime=600
     ```
 
-10. Monitor progress:
+9. Monitor progress:
 ```bash
 tail -f logs/snakemake_<jobid>.out
 ```
 
- REQUIRED DIRECTORY STRUCTURE:
+Required directory structure:
 -----------------------
 ```
 # project_root/
@@ -125,8 +111,7 @@ tail -f logs/snakemake_<jobid>.out
 # │   ├── BWA.yaml              
 # │   ├── CHECKM.yaml   
 # │   ├── COVERM.yaml                
-# │   ├── GTDBTK.yaml
-# │   ├── GUNC.yaml  
+# │   ├── GTDBTK.yaml 
 # │   ├── METABAT2.yaml        
 # │	  └── SAMTOOLS.yaml 
 # │	
