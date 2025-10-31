@@ -284,7 +284,7 @@ rule gtdbtk:
         """
 
 ########################################
-# 5. CoverM: Abundance estimation (QC passing MAGs only)
+# 6. CoverM: Abundance estimation (QC passing MAGs only)
 ########################################
 rule coverm:
     input:
