@@ -2,7 +2,7 @@
 # Usage instructions
 # ------------------
 # 1. Navigate to project root directory:
-# 	 mkdir /quobyte/dglemaygrp/mhilliard/FL100/lemaylab_MAG_reconstruction && cd /quobyte/dglemaygrp/mhilliard/FL100/lemaylab_MAG_reconstruction
+# 	 mkdir /path/to/project_root && cd /path/to/project_root
 #    git clone https://github.com/margarethilliard/lemaylab_MAG_reconstruction.git .
 # 
 # 2. Edit config/config.yaml paths for your system
@@ -56,17 +56,17 @@
 # ├── sample_sheet.txt             [REQUIRED - tab-separated file with sample info]
 # │
 # ├──fastq_files/                  [your input files from fastuniq]
-# │   ├── sample1_R1.fastq.gz
-# │   ├── sample1_R2.fastq.gz
-# │   ├── sample2_R1.fastq.gz
-# │   ├── sample2_R2.fastq.gz
-# │   ├── sample3_R1.fastq.gz
-# │   └── sample3_R2.fastq.gz	
+# │   ├── sample01_R1.fastq.gz
+# │   ├── sample01_R2.fastq.gz
+# │   ├── sample02_R1.fastq.gz
+# │   ├── sample02_R2.fastq.gz
+# │   ├── sample03_R1.fastq.gz
+# │   └── sample03_R2.fastq.gz	
 # │
 # └── contig_files/                [your input files from MEGAHIT]
-#     ├── sample1_final.contigs.fa.gz
-#     ├── sample2_final.contigs.fa.gz
-#     └── sample3_final.contigs.fa.gz
+#     ├── sample01_final.contigs.fa.gz
+#     ├── sample02_final.contigs.fa.gz
+#     └── sample03_final.contigs.fa.gz
 # 
 # All output directories will be created automatically by Snakemake
 #
@@ -74,9 +74,9 @@
 # SAMPLE SHEET FORMAT (sample_sheet.txt):
 # Tab-separated file with these columns:
 #sample_name	contig_path	r1_path	r2_path
-#5001	/path/to/5001_assembled/5001.final.contigs.fa	/path/to/5001_R1_dup.fastq.gz	/path/to/5001_R2_dup.fastq.gz
-#5002	/path/to/5002_assembled/5002.final.contigs.fa.gz	/path/to/5002_R1_dup.fastq.gz	/path/to/5002_R2_dup.fastq.gz
-#5006	/path/to/5006_assembled/5006.final.contigs.fa.gz	/path/to/5006_R1_dup.fastq.gz	/path/to/5006_R2_dup.fastq.gz
+#subject01	/path/to/contig_files/subject01.final.contigs.fa.gz	/path/to/fastq_files/subject01_R1.fastq.gz	/path/to/fastq_files/subject01_R2.fastq.gz
+#subject02	/path/to/contig_files/subject02.final.contigs.fa.gz	/path/to/fastq_files/subject02_R1.fastq.gz	/path/to/fastq_files/subject02_R2.fastq.gz
+#subject03	/path/to/contig_files/subject03.final.contigs.fa.gz	/path/to/fastq_files/subject03_R1.fastq.gz	/path/to/fastq_files/subject03_R2.fastq.gz
 #
 ########################################
 # Snakefile for FL100 MAG reconstruction
@@ -105,7 +105,7 @@ SAMPLE_R2 = dict(zip(samples_df["sample_name"], [os.path.join(PROJECT_ROOT, p) f
 SAMPLE_CONTIGS = dict(zip(samples_df["sample_name"], [os.path.join(PROJECT_ROOT, p) for p in samples_df["contigs_path"]]))
 
 # Constants
-GB = 1024
+GB = 1024 
 
 # ---- RULE ALL ----
 rule all:
